@@ -61,6 +61,12 @@ build CMakeFiles/Gizmo.dir/lexer.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Debug C$
   OBJECT_DIR = CMakeFiles\Gizmo.dir
   OBJECT_FILE_DIR = CMakeFiles\Gizmo.dir
 
+build CMakeFiles/Gizmo.dir/parser.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Debug C$:/Programming/Gizmo/parser.cpp || cmake_object_order_depends_target_Gizmo
+  DEP_FILE = CMakeFiles\Gizmo.dir\parser.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Gizmo.dir
+  OBJECT_FILE_DIR = CMakeFiles\Gizmo.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Gizmo
@@ -69,7 +75,7 @@ build CMakeFiles/Gizmo.dir/lexer.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Debug C$
 #############################################
 # Link the executable Gizmo.exe
 
-build Gizmo.exe: CXX_EXECUTABLE_LINKER__Gizmo_Debug CMakeFiles/Gizmo.dir/main.cpp.obj CMakeFiles/Gizmo.dir/lexer.cpp.obj
+build Gizmo.exe: CXX_EXECUTABLE_LINKER__Gizmo_Debug CMakeFiles/Gizmo.dir/main.cpp.obj CMakeFiles/Gizmo.dir/lexer.cpp.obj CMakeFiles/Gizmo.dir/parser.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Gizmo.dir

@@ -38,7 +38,12 @@ vector<string> splitString(const string &sourceCode)
 
 bool isNumber(const string &str)
 {
-    return std::all_of(str.begin(), str.end(), ::isdigit);
+    return all_of(str.begin(), str.end(), ::isdigit);
+}
+
+bool isValidIdentifier(const string &str)
+{
+    return isalpha(str[0]) && all_of(str.begin(), str.end(), [](char c) { return isalpha(c) || isdigit(c); });
 }
 
 bool isOperator(const string &str)
@@ -70,11 +75,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
 
         if (identifierNext)
         {
-            if (isalpha(word[0]))
+            if (isValidIdentifier(word))
             {
                 tokens.push_back(token(word, TokenType::Identifier));
             }
-            src.erase(src.begin());
             identifierNext = false;
             continue;
         }
@@ -82,24 +86,22 @@ vector<token> lexer::tokenize(const string &sourceCode)
         if (isNumber(word))
         {
             tokens.push_back(token(word, TokenType::Number));
-            src.erase(src.begin());
         }
         else if (isOperator(word))
         {
             tokens.push_back(token(word, TokenType::Operator));
-            src.erase(src.begin());
         }
         else if (isVariable(word))
         {
             tokens.push_back(token(word, TokenType::Variable));
-            src.erase(src.begin());
             identifierNext = true;
         }
         else if (word == "=")
         {
             tokens.push_back(token(word, TokenType::Equals));
-            src.erase(src.begin());
         }
+
+        src.erase(src.begin());
     }
 
     return tokens;
