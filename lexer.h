@@ -10,8 +10,16 @@ enum TokenType
     Number,
     Identifier,
     Equals,
-    BinaryOperator,
-    Variable
+    Operator,
+    Variable,
+};
+
+inline const char* TokenTypeStr[] = {
+    "Number",
+    "Identifier",
+    "Equals",
+    "Operator",
+    "Variable",
 };
 
 struct token

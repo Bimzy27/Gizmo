@@ -22,7 +22,7 @@ string readGizFile(const string& filename)
     }
 
     std::regex pattern("\r");
-    decompressedData = std::regex_replace(decompressedData, pattern, " \n");
+    decompressedData = std::regex_replace(decompressedData, pattern, "\n");
 
     file.close();
     return decompressedData;
@@ -34,12 +34,11 @@ int main()
 
     std::string filename = "C:/Programming/Gizmo/sourceCode/testSourceCode.giz";
     std::string fileContent = readGizFile(filename);
-    cout << fileContent << "\n";
 
     // Tokenize, and output result
     vector<token> tokens = lex.tokenize(fileContent);
     for (auto token: tokens) {
-        cout << "Token - " << token.type << " - " << token.value << "\n";
+        cout << "Token - " << TokenTypeStr[token.type] << " - " << token.value << "\n";
     }
     return 0;
 }
