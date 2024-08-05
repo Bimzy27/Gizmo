@@ -8,4 +8,6 @@ add_executable(Gizmo main.cpp
         lexer.h
         parser.cpp
         parser.h
+        codeGenerator.cpp
+        codeGenerator.h
 )

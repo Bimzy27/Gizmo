@@ -2,6 +2,7 @@
 #include <iostream>
 #include <regex>
 
+#include "codeGenerator.h"
 #include "lexer.h"
 #include "parser.h"
 
@@ -29,6 +30,18 @@ string readGizFile(const string& filename)
     return decompressedData;
 }
 
+void writeCppToFile(const string& content, const string& filename) {
+    ofstream outfile(filename);
+    if (outfile.is_open())
+    {
+        outfile << content;
+        outfile.close();
+    } else
+    {
+        cerr << "Error opening file" << endl;
+    }
+}
+
 int main()
 {
     std::string filename = "C:/Programming/Gizmo/sourceCode/testSourceCode.giz";
@@ -38,7 +51,7 @@ int main()
     lexer lex;
     vector<token> tokens = lex.tokenize(fileContent);
     for (auto token: tokens) {
-        cout << "Token - " << TokenTypeStr[token.type] << " - " << token.value << "\n";
+        cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << "\n";
     }
 
     // Parse tokens
@@ -52,7 +65,10 @@ int main()
     //TODO implement
 
     // CodeGen
-    //TODO implement
+    codeGenerator codeGen;
+    string cppCode = codeGen.generate(root);
+    cout << cppCode;
+    writeCppToFile(cppCode, "C:/Programming/Gizmo/codeGenOut/main.cpp");
 
     return 0;
 }
