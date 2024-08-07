@@ -22,6 +22,23 @@ vector<string> splitString(const string &sourceCode)
                 word.clear();
             }
         }
+        else if (ch == '(' || ch == ')')
+        {
+            if (!word.empty())
+            {
+                words.push_back(word);
+                word.clear();
+            }
+
+            if (ch == '(')
+            {
+                words.push_back("(");
+            }
+            else if (ch == ')')
+            {
+                words.push_back(")");
+            }
+        }
         else
         {
             word += ch;
@@ -64,14 +81,11 @@ vector<token> lexer::tokenize(const string &sourceCode)
     vector<token> tokens;
     vector<string> src = splitString(sourceCode);
 
-    for (auto &s: src) {
-        cout << "Src: " << s << endl;
-    }
-
     bool identifierNext = false;
     while (!src.empty())
     {
         string word = src.front();
+        cout << "Word: " << word << endl;
 
         if (identifierNext)
         {
@@ -80,6 +94,7 @@ vector<token> lexer::tokenize(const string &sourceCode)
                 tokens.push_back(token(word, TokenType::Identifier));
             }
             identifierNext = false;
+            src.erase(src.begin());
             continue;
         }
 
@@ -99,6 +114,19 @@ vector<token> lexer::tokenize(const string &sourceCode)
         else if (word == "=")
         {
             tokens.push_back(token(word, TokenType::Equals));
+        }
+        else if (word == "(")
+        {
+            tokens.push_back(token(word, TokenType::OpenParen));
+            identifierNext = true;
+        }
+        else if (word == ")")
+        {
+            tokens.push_back(token(word, TokenType::CloseParen));
+        }
+        else if (word == "print")
+        {
+            tokens.push_back(token(word, TokenType::Call));
         }
 
         src.erase(src.begin());

@@ -6,6 +6,11 @@ using namespace std;
 class codeGenerator {
 public:
     string generate(programNode* root);
+    string visitNode(node* nodeObj);
 private:
-    string visitProgram(const programNode& node);
+    string visitProgram(programNode &node);
+    string visitExpression(expressionNode &node);
+    string visitAssignment(assignmentNode &node);
+    string visitNumber(numberNode &node);
+    string visitCall(callNode &node);
 };

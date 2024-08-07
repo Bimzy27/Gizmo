@@ -13,6 +13,10 @@ enum TokenType
     Operator,
     Variable,
     NewLine,
+    Call,
+    OpenParen,
+    CloseParen,
+    Indent,
 };
 
 inline const char* TokenTypeStr[] = {
@@ -22,6 +26,10 @@ inline const char* TokenTypeStr[] = {
     "Operator",
     "Variable",
     "NewLine",
+    "Call",
+    "OpenParen",
+    "CloseParen",
+    "Indent",
 };
 
 struct token

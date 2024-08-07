@@ -19,7 +19,8 @@ string readGizFile(const string& filename)
 
     string decompressedData;
     string line;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         decompressedData.append(line);
     }
 
@@ -36,22 +37,41 @@ void writeCppToFile(const string& content, const string& filename) {
     {
         outfile << content;
         outfile.close();
-    } else
+    }
+    else
     {
         cerr << "Error opening file" << endl;
     }
 }
 
+void createCMakeLists(const string& filename)
+{
+    ofstream cmakeFile(filename);
+    if (cmakeFile.is_open())
+    {
+        cmakeFile << "cmake_minimum_required(VERSION 3.28)\n";
+        cmakeFile << "project(GizmoTest)\n";
+        cmakeFile << "set(CMAKE_CXX_STANDARD 20)\n";
+        cmakeFile << "add_executable(GizmoTest main.cpp)\n";
+        cmakeFile.close();
+    }
+    else
+    {
+        cerr << "Error creating CMakeLists.txt" << endl;
+    }
+}
+
 int main()
 {
-    std::string filename = "C:/Programming/Gizmo/sourceCode/testSourceCode.giz";
-    std::string fileContent = readGizFile(filename);
+    string filename = "C:/Programming/Gizmo/sourceCode/testSourceCode.giz";
+    string fileContent = readGizFile(filename);
 
     // Tokenize, and output result
     lexer lex;
     vector<token> tokens = lex.tokenize(fileContent);
-    for (auto token: tokens) {
-        cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << "\n";
+    for (auto token: tokens)
+    {
+        cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << endl;
     }
 
     // Parse tokens
@@ -67,8 +87,10 @@ int main()
     // CodeGen
     codeGenerator codeGen;
     string cppCode = codeGen.generate(root);
+    cout << "Code Gen Step: " << endl;
     cout << cppCode;
-    writeCppToFile(cppCode, "C:/Programming/Gizmo/codeGenOut/main.cpp");
+    writeCppToFile(cppCode, "C:/Programming/GizmoTest/main.cpp");
+    createCMakeLists("C:/Programming/GizmoTest/CMakeLists.txt");
 
     return 0;
 }
