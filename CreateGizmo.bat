@@ -1,10 +1,7 @@
 @echo off
-set projectName=%1
 
-if "%projectName%"=="" (
-    echo Please provide a project name.
-    exit /b 1
-)
+set /p projectName=Enter project name: 
+echo You entered: %projectName%
 
 md %projectName%
 cd %projectName%
