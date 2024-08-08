@@ -14,15 +14,7 @@ vector<string> splitString(const string &sourceCode)
 
     for (char ch : sourceCode)
     {
-        if (ch == ' ' || ch == '\n')
-        {
-            if (!word.empty())
-            {
-                words.push_back(word);
-                word.clear();
-            }
-        }
-        else if (ch == '(' || ch == ')')
+        if (ch == ' ' || ch == '\n' || ch == '(' || ch == ')')
         {
             if (!word.empty())
             {
@@ -30,7 +22,11 @@ vector<string> splitString(const string &sourceCode)
                 word.clear();
             }
 
-            if (ch == '(')
+            if (ch == '\n')
+            {
+                words.push_back("\n");
+            }
+            else if (ch == '(')
             {
                 words.push_back("(");
             }
@@ -98,7 +94,11 @@ vector<token> lexer::tokenize(const string &sourceCode)
             continue;
         }
 
-        if (isNumber(word))
+        if (word == "\n")
+        {
+            tokens.push_back(token(word, TokenType::NewLine));
+        }
+        else if (isNumber(word))
         {
             tokens.push_back(token(word, TokenType::Number));
         }

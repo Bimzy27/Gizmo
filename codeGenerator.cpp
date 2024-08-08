@@ -28,6 +28,10 @@ string codeGenerator::visitNode(node* nodeObj)
     {
         return visitCall(static_cast<callNode&>(*nodeObj));
     }
+    if (nodeType == "operator")
+    {
+        return visitOperator(static_cast<operatorNode&>(*nodeObj));
+    }
     return "";
 }
 
@@ -68,9 +72,7 @@ string codeGenerator::visitAssignment(assignmentNode &node)
         code += "if (intVars.find(\"" + node.variable->name + "\") == intVars.end())\n";
         code += "{ intVars[\"" + node.variable->name + "\"] = 0; }\n";
         code += "intVars[\"" + node.variable->name + "\"] = ";
-        code += visitNode(node.operation->left);
-        code += node.operation->op;
-        code += visitNode(node.operation->right);
+        code += visitNode(node.node);
         code += ";\n";
     }
     return code;
@@ -90,5 +92,14 @@ string codeGenerator::visitCall(callNode &node)
     {
         code += "cout << intVars[\"" + node.varName + "\"] << endl;\n";
     }
+    return code;
+}
+
+string codeGenerator::visitOperator(operatorNode &node)
+{
+    string code;
+    code += visitNode(node.left);
+    code += node.op;
+    code += visitNode(node.right);
     return code;
 }

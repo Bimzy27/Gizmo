@@ -13,4 +13,5 @@ private:
     string visitAssignment(assignmentNode &node);
     string visitNumber(numberNode &node);
     string visitCall(callNode &node);
+    string visitOperator(operatorNode &node);
 };

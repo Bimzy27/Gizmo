@@ -51,14 +51,14 @@ public:
 class assignmentNode : public node
 {
 public:
-    assignmentNode(variableNode* variable_, operatorNode* operation_) : variable(variable_), operation(operation_) {}
+    assignmentNode(variableNode* variable_, node* node_) : variable(variable_), node(node_) {}
     string getType() const override
     {
         return "assignment";
     }
 
     variableNode* variable;
-    operatorNode* operation;
+    node* node;
 };
 
 class callNode : public node
