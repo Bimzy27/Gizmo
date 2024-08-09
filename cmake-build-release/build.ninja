@@ -12,7 +12,7 @@
 
 # =============================================================================
 # Project: Gizmo
-# Configurations: Debug
+# Configurations: Release
 # =============================================================================
 
 #############################################
@@ -24,7 +24,7 @@ ninja_required_version = 1.5
 #############################################
 # Set configuration variable for custom commands.
 
-CONFIGURATION = Debug
+CONFIGURATION = Release
 # =============================================================================
 # Include auxiliary files.
 
@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Programming/Gizmo/cmake-build-debug/
+cmake_ninja_workdir = C$:/Programming/Gizmo/cmake-build-release/
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target compiler
 
@@ -49,27 +49,27 @@ cmake_ninja_workdir = C$:/Programming/Gizmo/cmake-build-debug/
 
 build cmake_object_order_depends_target_compiler: phony || CMakeFiles/compiler.dir
 
-build CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj: CXX_COMPILER__compiler_unscanned_Debug C$:/Programming/Gizmo/compiler/gizCompiler.cpp || cmake_object_order_depends_target_compiler
+build CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj: CXX_COMPILER__compiler_unscanned_Release C$:/Programming/Gizmo/compiler/gizCompiler.cpp || cmake_object_order_depends_target_compiler
   DEP_FILE = CMakeFiles\compiler.dir\compiler\gizCompiler.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
 
-build CMakeFiles/compiler.dir/compiler/lexer.cpp.obj: CXX_COMPILER__compiler_unscanned_Debug C$:/Programming/Gizmo/compiler/lexer.cpp || cmake_object_order_depends_target_compiler
+build CMakeFiles/compiler.dir/compiler/lexer.cpp.obj: CXX_COMPILER__compiler_unscanned_Release C$:/Programming/Gizmo/compiler/lexer.cpp || cmake_object_order_depends_target_compiler
   DEP_FILE = CMakeFiles\compiler.dir\compiler\lexer.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
 
-build CMakeFiles/compiler.dir/compiler/parser.cpp.obj: CXX_COMPILER__compiler_unscanned_Debug C$:/Programming/Gizmo/compiler/parser.cpp || cmake_object_order_depends_target_compiler
+build CMakeFiles/compiler.dir/compiler/parser.cpp.obj: CXX_COMPILER__compiler_unscanned_Release C$:/Programming/Gizmo/compiler/parser.cpp || cmake_object_order_depends_target_compiler
   DEP_FILE = CMakeFiles\compiler.dir\compiler\parser.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
 
-build CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj: CXX_COMPILER__compiler_unscanned_Debug C$:/Programming/Gizmo/compiler/codeGenerator.cpp || cmake_object_order_depends_target_compiler
+build CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj: CXX_COMPILER__compiler_unscanned_Release C$:/Programming/Gizmo/compiler/codeGenerator.cpp || cmake_object_order_depends_target_compiler
   DEP_FILE = CMakeFiles\compiler.dir\compiler\codeGenerator.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
 
@@ -81,8 +81,8 @@ build CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj: CXX_COMPILER__comp
 #############################################
 # Link the static library libcompiler.a
 
-build libcompiler.a: CXX_STATIC_LIBRARY_LINKER__compiler_Debug CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj CMakeFiles/compiler.dir/compiler/lexer.cpp.obj CMakeFiles/compiler.dir/compiler/parser.cpp.obj CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj
-  LANGUAGE_COMPILE_FLAGS = -g
+build libcompiler.a: CXX_STATIC_LIBRARY_LINKER__compiler_Release CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj CMakeFiles/compiler.dir/compiler/lexer.cpp.obj CMakeFiles/compiler.dir/compiler/parser.cpp.obj CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles\compiler.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -98,9 +98,9 @@ build libcompiler.a: CXX_STATIC_LIBRARY_LINKER__compiler_Debug CMakeFiles/compil
 
 build cmake_object_order_depends_target_Gizmo: phony || cmake_object_order_depends_target_compiler
 
-build CMakeFiles/Gizmo.dir/main.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Debug C$:/Programming/Gizmo/main.cpp || cmake_object_order_depends_target_Gizmo
+build CMakeFiles/Gizmo.dir/main.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Release C$:/Programming/Gizmo/main.cpp || cmake_object_order_depends_target_Gizmo
   DEP_FILE = CMakeFiles\Gizmo.dir\main.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\Gizmo.dir
   OBJECT_FILE_DIR = CMakeFiles\Gizmo.dir
 
@@ -112,8 +112,8 @@ build CMakeFiles/Gizmo.dir/main.cpp.obj: CXX_COMPILER__Gizmo_unscanned_Debug C$:
 #############################################
 # Link the executable Gizmo.exe
 
-build Gizmo.exe: CXX_EXECUTABLE_LINKER__Gizmo_Debug CMakeFiles/Gizmo.dir/main.cpp.obj | libcompiler.a || libcompiler.a
-  FLAGS = -g
+build Gizmo.exe: CXX_EXECUTABLE_LINKER__Gizmo_Release CMakeFiles/Gizmo.dir/main.cpp.obj | libcompiler.a || libcompiler.a
+  FLAGS = -O3 -DNDEBUG
   LINK_LIBRARIES = libcompiler.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Gizmo.dir
   POST_BUILD = cd .
@@ -127,7 +127,7 @@ build Gizmo.exe: CXX_EXECUTABLE_LINKER__Gizmo_Debug CMakeFiles/Gizmo.dir/main.cp
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Programming\Gizmo\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Programming\Gizmo\cmake-build-release && "C:\Program Files\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -138,7 +138,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Programming\Gizmo\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Programming\Gizmo -BC:\Programming\Gizmo\cmake-build-debug"
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Programming\Gizmo\cmake-build-release && "C:\Program Files\JetBrains\CLion 2024.1.4\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Programming\Gizmo -BC:\Programming\Gizmo\cmake-build-release"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -158,7 +158,7 @@ build compiler: phony libcompiler.a
 # =============================================================================
 
 #############################################
-# Folder: C:/Programming/Gizmo/cmake-build-debug
+# Folder: C:/Programming/Gizmo/cmake-build-release
 
 build all: phony libcompiler.a Gizmo.exe
 

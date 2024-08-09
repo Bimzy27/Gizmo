@@ -15,7 +15,8 @@ echo int var = 1 > main.giz
 echo print(var) >> main.giz
 
 echo projectName=%projectName% > project.gizmo
-echo path="%projectPath%" >> project.gizmo
+echo path=%projectPath% >> project.gizmo
+echo main=main.giz >> project.gizmo
 
 cd ..
 

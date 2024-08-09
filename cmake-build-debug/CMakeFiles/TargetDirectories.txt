@@ -1,3 +1,4 @@
+C:/Programming/Gizmo/cmake-build-debug/CMakeFiles/compiler.dir
 C:/Programming/Gizmo/cmake-build-debug/CMakeFiles/Gizmo.dir
 C:/Programming/Gizmo/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Programming/Gizmo/cmake-build-debug/CMakeFiles/rebuild_cache.dir

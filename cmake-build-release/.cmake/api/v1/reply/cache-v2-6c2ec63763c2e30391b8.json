@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Debug"
+			"value" : "Release"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Programming/Gizmo/cmake-build-debug"
+			"value" : "c:/Programming/Gizmo/cmake-build-release"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -575,7 +575,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Programming/Gizmo/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Programming/Gizmo/cmake-build-release/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -659,7 +659,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/Gizmo"
+			"value" : "C:/Program Files (x86)/GizmoCompiler"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -1270,6 +1270,42 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "GizmoCompiler_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Programming/Gizmo/cmake-build-release"
+		},
+		{
+			"name" : "GizmoCompiler_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "GizmoCompiler_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "C:/Programming/Gizmo"
+		},
+		{
 			"name" : "Gizmo_BINARY_DIR",
 			"properties" : 
 			[
@@ -1279,7 +1315,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Programming/Gizmo/cmake-build-debug"
+			"value" : "C:/Programming/Gizmo/cmake-build-release"
 		},
 		{
 			"name" : "Gizmo_IS_TOP_LEVEL",

@@ -1,8 +1,0 @@
-int myName1 = 420 + 69
-int myName2 = 231 + 24
-print(myName1)
-int myName3 = 1 + 2
-int myName4
-print(myName2)
-print(myName3)
-print(myName4)

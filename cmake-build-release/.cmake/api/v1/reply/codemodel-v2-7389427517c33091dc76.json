@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.28"
@@ -15,11 +15,12 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -30,7 +31,8 @@
 					"name" : "Gizmo",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Gizmo::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Gizmo-Debug-32003f25ecfe4bbecdef.json",
+					"jsonFile" : "target-Gizmo-Release-c07c3585fdc87b5926b4.json",
 					"name" : "Gizmo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "compiler::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-compiler-Release-1ba41818f08be492d1c0.json",
+					"name" : "compiler",
 					"projectIndex" : 0
 				}
 			]
@@ -49,7 +58,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Programming/Gizmo/cmake-build-debug",
+		"build" : "C:/Programming/Gizmo/cmake-build-release",
 		"source" : "C:/Programming/Gizmo"
 	},
 	"version" : 
