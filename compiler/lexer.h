@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -42,4 +44,6 @@ class lexer
 {
 public:
     vector<token> tokenize(const string &sourceCode);
+private:
+    set<string> variables;
 };

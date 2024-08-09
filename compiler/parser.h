@@ -48,6 +48,18 @@ public:
     string name;
 };
 
+class identifierNode : public node
+{
+public:
+    identifierNode(string name_) : name(name_) {}
+    string getType() const override
+    {
+        return "identifier";
+    }
+
+    string name;
+};
+
 class assignmentNode : public node
 {
 public:
@@ -101,5 +113,12 @@ public:
 class parser
 {
 public:
-    programNode* parse(vector<token> tokens);
+    programNode* parse(vector<token> tokens_);
+private:
+
+    vector<token> tokens;
+    programNode* program;
+
+    void parseVariable();
+    void parseCall();
 };

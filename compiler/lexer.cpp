@@ -69,7 +69,19 @@ bool isOperator(const string &str)
 bool isVariable(const string &str)
 {
     return
-        str == "int";
+        str == "number";
+}
+
+void logWord(string &word)
+{
+    if (word == "\n")
+    {
+        cout << "Word: " << "newLine" << endl;
+    }
+    else
+    {
+        cout << "Word: " << word << endl;
+    }
 }
 
 vector<token> lexer::tokenize(const string &sourceCode)
@@ -81,13 +93,21 @@ vector<token> lexer::tokenize(const string &sourceCode)
     while (!src.empty())
     {
         string word = src.front();
-        cout << "Word: " << word << endl;
+        logWord(word);
+
+        if (variables.contains(word))
+        {
+            tokens.push_back(token(word, TokenType::Identifier));
+            src.erase(src.begin());
+            continue;
+        }
 
         if (identifierNext)
         {
             if (isValidIdentifier(word))
             {
                 tokens.push_back(token(word, TokenType::Identifier));
+                variables.insert(word);
             }
             identifierNext = false;
             src.erase(src.begin());
@@ -118,7 +138,6 @@ vector<token> lexer::tokenize(const string &sourceCode)
         else if (word == "(")
         {
             tokens.push_back(token(word, TokenType::OpenParen));
-            identifierNext = true;
         }
         else if (word == ")")
         {

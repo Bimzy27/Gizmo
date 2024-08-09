@@ -1,5 +1,7 @@
 #include "codeGenerator.h"
 
+#include <iostream>
+
 using namespace std;
 
 string codeGenerator::generate(programNode *root)
@@ -32,6 +34,11 @@ string codeGenerator::visitNode(node* nodeObj)
     {
         return visitOperator(static_cast<operatorNode&>(*nodeObj));
     }
+    if (nodeType == "identifier")
+    {
+        return visitIdentifier(static_cast<identifierNode&>(*nodeObj));
+    }
+    cout << "Unhandled node visisted of type: " << nodeObj->getType() << endl;
     return "";
 }
 
@@ -58,7 +65,6 @@ string codeGenerator::visitProgram(programNode &node)
 
 string codeGenerator::visitExpression(expressionNode &node)
 {
-    string nodeType = node.func->getType();
     string code;
     code += visitNode(node.func);
     return code;
@@ -67,7 +73,7 @@ string codeGenerator::visitExpression(expressionNode &node)
 string codeGenerator::visitAssignment(assignmentNode &node)
 {
     string code;
-    if (node.variable->type == "int")
+    if (node.variable->type == "number")
     {
         code += "if (intVars.find(\"" + node.variable->name + "\") == intVars.end())\n";
         code += "{ intVars[\"" + node.variable->name + "\"] = 0; }\n";
@@ -101,5 +107,12 @@ string codeGenerator::visitOperator(operatorNode &node)
     code += visitNode(node.left);
     code += node.op;
     code += visitNode(node.right);
+    return code;
+}
+
+string codeGenerator::visitIdentifier(identifierNode &node)
+{
+    string code;
+    code += "intVars[\"" + node.name + "\"]";
     return code;
 }

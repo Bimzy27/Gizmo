@@ -131,7 +131,14 @@ void gizCompiler::compile(string projectFile)
     vector<token> tokens = lex.tokenize(fileContent);
     for (auto token: tokens)
     {
-        cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << endl;
+        if (token.value == "\n")
+        {
+            cout << "Token <-> " << TokenTypeStr[token.type] << endl;
+        }
+        else
+        {
+            cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << endl;
+        }
     }
 
     // Parse tokens
