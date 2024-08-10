@@ -156,4 +156,6 @@ void gizCompiler::compile(string projectFile)
     string cppCode = codeGen.generate(root);
     writeCppToFile(cppCode, path + "/build/main.cpp");
     createCMakeLists(path + "/build/CMakeLists.txt");
+
+    cout << "Compile Success!" << endl;
 }

@@ -63,13 +63,13 @@ public:
 class assignmentNode : public node
 {
 public:
-    assignmentNode(variableNode* variable_, node* node_) : variable(variable_), node(node_) {}
+    assignmentNode(identifierNode* varName_, node* node_) : varName(varName_), node(node_) {}
     string getType() const override
     {
         return "assignment";
     }
 
-    variableNode* variable;
+    identifierNode* varName;
     node* node;
 };
 
@@ -121,4 +121,5 @@ private:
 
     void parseVariable();
     void parseCall();
+    void parseAssignment();
 };

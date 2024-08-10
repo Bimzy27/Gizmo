@@ -16,6 +16,12 @@ programNode* parser::parse(vector<token> tokens_)
             continue;
         }
 
+        if (tokens.front().type == TokenType::Identifier)
+        {
+            parseAssignment();
+            continue;
+        }
+
         if (tokens.front().type == TokenType::Call)
         {
             parseCall();
@@ -56,6 +62,26 @@ void parser::parseVariable()
     string type = tokens.front().value;
     tokens.erase(tokens.begin());
     string name = tokens.front().value;
+    variableNode* variable = new variableNode(type, name);
+    program->executions.push_back(variable);
+}
+
+void parser::parseCall()
+{
+    string name = tokens.front().value;
+    tokens.erase(tokens.begin());
+    tokens.erase(tokens.begin()); // consume (
+    string varName = tokens.front().value;
+    tokens.erase(tokens.begin());
+    tokens.erase(tokens.begin()); // consume )
+    callNode* call = new callNode(name, varName);
+
+    program->executions.push_back(call);
+}
+
+void parser::parseAssignment()
+{
+    string name = tokens.front().value;
     tokens.erase(tokens.begin());
 
     if (tokens.front().type == TokenType::NewLine)
@@ -77,7 +103,7 @@ void parser::parseVariable()
 
         node* rightNode = getNextAssignment(tokens);
 
-        variableNode* variable = new variableNode(type, name);
+        identifierNode* variable = new identifierNode(name);
         operatorNode* operation = new operatorNode(op, leftNode, rightNode);
         assignmentNode* assign = new assignmentNode(variable, operation);
 
@@ -86,22 +112,9 @@ void parser::parseVariable()
     else
     {
         node* val = getNextAssignment(tokens);
-        variableNode* variable = new variableNode(type, name);
+        identifierNode* variable = new identifierNode(name);
         assignmentNode* assign = new assignmentNode(variable, val);
 
         program->executions.push_back(assign);
     }
-}
-
-void parser::parseCall()
-{
-    string name = tokens.front().value;
-    tokens.erase(tokens.begin());
-    tokens.erase(tokens.begin()); // consume (
-    string varName = tokens.front().value;
-    tokens.erase(tokens.begin());
-    tokens.erase(tokens.begin()); // consume )
-    callNode* call = new callNode(name, varName);
-
-    program->executions.push_back(call);
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include <map>
+
 #include "parser.h"
 
 using namespace std;
@@ -8,6 +10,8 @@ public:
     string generate(programNode* root);
     string visitNode(node* nodeObj);
 private:
+    map<string, string> varTypes;
+
     string visitProgram(programNode &node);
     string visitExpression(expressionNode &node);
     string visitAssignment(assignmentNode &node);
@@ -15,4 +19,5 @@ private:
     string visitCall(callNode &node);
     string visitOperator(operatorNode &node);
     string visitIdentifier(identifierNode &node);
+    string visitVariable(variableNode &node);
 };

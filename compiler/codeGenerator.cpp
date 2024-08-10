@@ -1,6 +1,7 @@
 #include "codeGenerator.h"
 
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -17,6 +18,10 @@ string codeGenerator::visitNode(node* nodeObj)
     if (nodeType == "expression")
     {
         return visitExpression(static_cast<expressionNode&>(*nodeObj));
+    }
+    if (nodeType == "variable")
+    {
+        return visitVariable(static_cast<variableNode&>(*nodeObj));
     }
     if (nodeType == "assignment")
     {
@@ -50,7 +55,9 @@ string codeGenerator::visitProgram(programNode &node)
     code += "using namespace std;\n";
     code += "int main()\n";
     code += "{\n";
-    code += "std::map<string, int> intVars;\n";
+    code += "map<string, string> varTypes;\n";
+    code += "map<string, int> numberVars;\n";
+    code += "map<string, string> textVars;\n";
 
     while (!node.executions.empty())
     {
@@ -73,14 +80,9 @@ string codeGenerator::visitExpression(expressionNode &node)
 string codeGenerator::visitAssignment(assignmentNode &node)
 {
     string code;
-    if (node.variable->type == "number")
-    {
-        code += "if (intVars.find(\"" + node.variable->name + "\") == intVars.end())\n";
-        code += "{ intVars[\"" + node.variable->name + "\"] = 0; }\n";
-        code += "intVars[\"" + node.variable->name + "\"] = ";
-        code += visitNode(node.node);
-        code += ";\n";
-    }
+    code += varTypes[node.varName->name] + "Vars[\"" + node.varName->name + "\"] = ";
+    code += visitNode(node.node);
+    code += ";\n";
     return code;
 }
 
@@ -96,7 +98,7 @@ string codeGenerator::visitCall(callNode &node)
     string code;
     if (node.name == "print")
     {
-        code += "cout << intVars[\"" + node.varName + "\"] << endl;\n";
+        code += "cout << " + varTypes[node.varName] + "Vars[\"" + node.varName + "\"] << endl;\n";
     }
     return code;
 }
@@ -113,6 +115,17 @@ string codeGenerator::visitOperator(operatorNode &node)
 string codeGenerator::visitIdentifier(identifierNode &node)
 {
     string code;
-    code += "intVars[\"" + node.name + "\"]";
+    code += varTypes[node.name] + "Vars[\"" + node.name + "\"]";
     return code;
+}
+
+string codeGenerator::visitVariable(variableNode &node)
+{
+    varTypes[node.name] = node.type;
+    string code;
+    code += "varTypes[\"" + node.name + "\"] = \"" + node.type + "\";\n";
+    code += "if (" + varTypes[node.name] + "Vars.find(\"" + node.name + "\") == " + varTypes[node.name] + "Vars.end())\n";
+    code += "{ " + varTypes[node.name] + "Vars[\"" + node.name + "\"] = 0; }\n";
+    return code;
+
 }
