@@ -21,6 +21,17 @@ public:
     int value;
 };
 
+class textNode : public node
+{
+public:
+    textNode(string value_) : value(value_) {}
+    string getType() const override
+    {
+        return "text";
+    }
+    string value;
+};
+
 class operatorNode : public node
 {
 public:

@@ -40,23 +40,6 @@ programNode* parser::parse(vector<token> tokens_)
     return program;
 }
 
-node* getNextAssignment(vector<token> &tokens)
-{
-    node* n;
-    if (tokens.front().type == TokenType::Number)
-    {
-        int num = stoi(tokens.front().value);
-        n = new numberNode(num);
-    }
-    else if (tokens.front().type == TokenType::Identifier)
-    {
-        string str = tokens.front().value;
-        n = new identifierNode(str);
-    }
-    tokens.erase(tokens.begin());
-    return n;
-}
-
 void parser::parseVariable()
 {
     string type = tokens.front().value;
@@ -79,6 +62,28 @@ void parser::parseCall()
     program->executions.push_back(call);
 }
 
+node* getNextAssignment(vector<token> &tokens)
+{
+    node* n;
+    if (tokens.front().type == TokenType::Number)
+    {
+        int num = stoi(tokens.front().value);
+        n = new numberNode(num);
+    }
+    else if (tokens.front().type == TokenType::Text)
+    {
+        string str = tokens.front().value;
+        n = new textNode(str);
+    }
+    else if (tokens.front().type == TokenType::Identifier)
+    {
+        string str = tokens.front().value;
+        n = new identifierNode(str);
+    }
+    tokens.erase(tokens.begin());
+    return n;
+}
+
 void parser::parseAssignment()
 {
     string name = tokens.front().value;
@@ -86,7 +91,7 @@ void parser::parseAssignment()
 
     if (tokens.front().type == TokenType::NewLine)
     {
-        tokens.insert(tokens.begin(), token("0", TokenType::Number));
+        return;
     }
 
     if (tokens.front().type == TokenType::Equals)

@@ -7,51 +7,14 @@
 
 using namespace std;
 
-vector<string> splitString(const string &sourceCode)
-{
-    vector<string> words;
-    string word;
-
-    for (char ch : sourceCode)
-    {
-        if (ch == ' ' || ch == '\n' || ch == '(' || ch == ')')
-        {
-            if (!word.empty())
-            {
-                words.push_back(word);
-                word.clear();
-            }
-
-            if (ch == '\n')
-            {
-                words.push_back("\n");
-            }
-            else if (ch == '(')
-            {
-                words.push_back("(");
-            }
-            else if (ch == ')')
-            {
-                words.push_back(")");
-            }
-        }
-        else
-        {
-            word += ch;
-        }
-    }
-
-    if (!word.empty())
-    {
-        words.push_back(word);
-    }
-
-    return words;
-}
-
 bool isNumber(const string &str)
 {
     return all_of(str.begin(), str.end(), ::isdigit);
+}
+
+bool isText(const string &str)
+{
+    return str.back() == '"' && str.front() == '"';
 }
 
 bool isValidIdentifier(const string &str)
@@ -69,7 +32,8 @@ bool isOperator(const string &str)
 bool isVariable(const string &str)
 {
     return
-        str == "number";
+        str == "number" ||
+        str == "text";
 }
 
 void logWord(string &word)
@@ -122,6 +86,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Number));
         }
+        else if (isText(word))
+        {
+            tokens.push_back(token(word, TokenType::Text));
+        }
         else if (isOperator(word))
         {
             tokens.push_back(token(word, TokenType::Operator));
@@ -152,4 +120,68 @@ vector<token> lexer::tokenize(const string &sourceCode)
     }
 
     return tokens;
+}
+
+vector<string> lexer::splitString(const string &sourceCode)
+{
+    vector<string> words;
+    string word;
+
+    for (char ch : sourceCode)
+    {
+        if (ch == '"')
+        {
+            if (accumulatingText)
+            {
+                word += ch;
+                words.push_back(word);
+                word.clear();
+                accumulatingText = false;
+            }
+            else
+            {
+                if (!word.empty())
+                {
+                    words.push_back(word);
+                    word.clear();
+                }
+                word += ch;
+                accumulatingText = true;
+            }
+            continue;
+        }
+
+        if ((ch == ' ' || ch == '\n' || ch == '(' || ch == ')') && !accumulatingText)
+        {
+            if (!word.empty())
+            {
+                words.push_back(word);
+                word.clear();
+            }
+
+            if (ch == '\n')
+            {
+                words.push_back("\n");
+            }
+            else if (ch == '(')
+            {
+                words.push_back("(");
+            }
+            else if (ch == ')')
+            {
+                words.push_back(")");
+            }
+        }
+        else
+        {
+            word += ch;
+        }
+    }
+
+    if (!word.empty())
+    {
+        words.push_back(word);
+    }
+
+    return words;
 }

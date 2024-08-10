@@ -7,6 +7,9 @@ using namespace std;
 
 string codeGenerator::generate(programNode *root)
 {
+    varTypesDefaults["number"] = "0";
+    varTypesDefaults["text"] = "\"\"";
+
     string code;
     code += visitProgram(*root);
     return code;
@@ -30,6 +33,10 @@ string codeGenerator::visitNode(node* nodeObj)
     if (nodeType == "number")
     {
         return visitNumber(static_cast<numberNode&>(*nodeObj));
+    }
+    if (nodeType == "text")
+    {
+        return visitText(static_cast<textNode&>(*nodeObj));
     }
     if (nodeType == "call")
     {
@@ -93,6 +100,13 @@ string codeGenerator::visitNumber(numberNode &node)
     return code;
 }
 
+string codeGenerator::visitText(textNode &node)
+{
+    string code;
+    code += node.value;
+    return code;
+}
+
 string codeGenerator::visitCall(callNode &node)
 {
     string code;
@@ -124,8 +138,8 @@ string codeGenerator::visitVariable(variableNode &node)
     varTypes[node.name] = node.type;
     string code;
     code += "varTypes[\"" + node.name + "\"] = \"" + node.type + "\";\n";
-    code += "if (" + varTypes[node.name] + "Vars.find(\"" + node.name + "\") == " + varTypes[node.name] + "Vars.end())\n";
-    code += "{ " + varTypes[node.name] + "Vars[\"" + node.name + "\"] = 0; }\n";
+    code += "if (" + node.type + "Vars.find(\"" + node.name + "\") == " + node.type + "Vars.end())\n";
+    code += "{ " + node.type + "Vars[\"" + node.name + "\"] = " + varTypesDefaults[node.type] + "; }\n";
     return code;
 
 }

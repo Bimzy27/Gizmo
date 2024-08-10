@@ -9,6 +9,7 @@ using namespace std;
 enum TokenType
 {
     Number,
+    Text,
     Identifier,
     Equals,
     Operator,
@@ -22,6 +23,7 @@ enum TokenType
 
 inline const char* TokenTypeStr[] = {
     "Number",
+    "Text",
     "Identifier",
     "Equals",
     "Operator",
@@ -44,5 +46,7 @@ class lexer
 public:
     vector<token> tokenize(const string &sourceCode);
 private:
+    vector<string> splitString(const string &sourceCode);
     set<string> variables;
+    bool accumulatingText = false;
 };
