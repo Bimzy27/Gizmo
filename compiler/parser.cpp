@@ -75,6 +75,11 @@ node* getNextAssignment(vector<token> &tokens)
         string str = tokens.front().value;
         n = new textNode(str);
     }
+    else if (tokens.front().type == TokenType::Bool)
+    {
+        string str = tokens.front().value;
+        n = new boolNode(str == "true");
+    }
     else if (tokens.front().type == TokenType::Identifier)
     {
         string str = tokens.front().value;

@@ -114,6 +114,21 @@ string replaceBackslashWithSlash(const string& input)
     return output;
 }
 
+void logTokens(vector<token> &tokens)
+{
+    for (auto token: tokens)
+    {
+        if (token.value == "\n")
+        {
+            cout << "Token <-> " << TokenTypeStr[token.type] << endl;
+        }
+        else
+        {
+            cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << endl;
+        }
+    }
+}
+
 void gizCompiler::compile(string projectFile)
 {
     // Get Giz files
@@ -129,17 +144,7 @@ void gizCompiler::compile(string projectFile)
     // Tokenize, and output result
     lexer lex;
     vector<token> tokens = lex.tokenize(fileContent);
-    for (auto token: tokens)
-    {
-        if (token.value == "\n")
-        {
-            cout << "Token <-> " << TokenTypeStr[token.type] << endl;
-        }
-        else
-        {
-            cout << "Token <-> " << TokenTypeStr[token.type] << " <-> " << token.value << endl;
-        }
-    }
+    logTokens(tokens);
 
     // Parse tokens
     parser par;

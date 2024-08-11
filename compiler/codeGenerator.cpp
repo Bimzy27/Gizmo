@@ -9,6 +9,7 @@ string codeGenerator::generate(programNode *root)
 {
     varTypesDefaults["number"] = "0";
     varTypesDefaults["text"] = "\"\"";
+    varTypesDefaults["bool"] = "false";
 
     string code;
     code += visitProgram(*root);
@@ -18,37 +19,42 @@ string codeGenerator::generate(programNode *root)
 string codeGenerator::visitNode(node* nodeObj)
 {
     string nodeType = nodeObj->getType();
+    cout << "Visiting Node: " << nodeType << endl;
     if (nodeType == "expression")
     {
-        return visitExpression(static_cast<expressionNode&>(*nodeObj));
+        return visitExpression(dynamic_cast<expressionNode&>(*nodeObj));
     }
     if (nodeType == "variable")
     {
-        return visitVariable(static_cast<variableNode&>(*nodeObj));
+        return visitVariable(dynamic_cast<variableNode&>(*nodeObj));
     }
     if (nodeType == "assignment")
     {
-        return visitAssignment(static_cast<assignmentNode&>(*nodeObj));
+        return visitAssignment(dynamic_cast<assignmentNode&>(*nodeObj));
     }
     if (nodeType == "number")
     {
-        return visitNumber(static_cast<numberNode&>(*nodeObj));
+        return visitNumber(dynamic_cast<numberNode&>(*nodeObj));
     }
     if (nodeType == "text")
     {
-        return visitText(static_cast<textNode&>(*nodeObj));
+        return visitText(dynamic_cast<textNode&>(*nodeObj));
+    }
+    if (nodeType == "bool")
+    {
+        return visitBool(dynamic_cast<boolNode&>(*nodeObj));
     }
     if (nodeType == "call")
     {
-        return visitCall(static_cast<callNode&>(*nodeObj));
+        return visitCall(dynamic_cast<callNode&>(*nodeObj));
     }
     if (nodeType == "operator")
     {
-        return visitOperator(static_cast<operatorNode&>(*nodeObj));
+        return visitOperator(dynamic_cast<operatorNode&>(*nodeObj));
     }
     if (nodeType == "identifier")
     {
-        return visitIdentifier(static_cast<identifierNode&>(*nodeObj));
+        return visitIdentifier(dynamic_cast<identifierNode&>(*nodeObj));
     }
     cout << "Unhandled node visisted of type: " << nodeObj->getType() << endl;
     return "";
@@ -65,6 +71,7 @@ string codeGenerator::visitProgram(programNode &node)
     code += "map<string, string> varTypes;\n";
     code += "map<string, int> numberVars;\n";
     code += "map<string, string> textVars;\n";
+    code += "map<string, bool> boolVars;\n";
 
     while (!node.executions.empty())
     {
@@ -107,10 +114,28 @@ string codeGenerator::visitText(textNode &node)
     return code;
 }
 
+string codeGenerator::visitBool(boolNode &node)
+{
+    string code;
+    if (node.value)
+    {
+        code += "true";
+    }
+    else
+    {
+        code += "false";
+    }
+    return code;
+}
+
 string codeGenerator::visitCall(callNode &node)
 {
     string code;
-    if (node.name == "print")
+    if (node.name == "write")
+    {
+        code += "cout << " + varTypes[node.varName] + "Vars[\"" + node.varName + "\"];\n";
+    }
+    else if (node.name == "writeLine")
     {
         code += "cout << " + varTypes[node.varName] + "Vars[\"" + node.varName + "\"] << endl;\n";
     }

@@ -18,6 +18,7 @@ private:
     string visitAssignment(assignmentNode &node);
     string visitNumber(numberNode &node);
     string visitText(textNode &node);
+    string visitBool(boolNode &node);
     string visitCall(callNode &node);
     string visitOperator(operatorNode &node);
     string visitIdentifier(identifierNode &node);

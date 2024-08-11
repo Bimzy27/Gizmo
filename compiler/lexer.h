@@ -10,6 +10,7 @@ enum TokenType
 {
     Number,
     Text,
+    Bool,
     Identifier,
     Equals,
     Operator,
@@ -24,6 +25,7 @@ enum TokenType
 inline const char* TokenTypeStr[] = {
     "Number",
     "Text",
+    "Bool",
     "Identifier",
     "Equals",
     "Operator",

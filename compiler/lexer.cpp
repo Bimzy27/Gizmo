@@ -17,6 +17,11 @@ bool isText(const string &str)
     return str.back() == '"' && str.front() == '"';
 }
 
+bool isBool(const string &str)
+{
+    return str == "true" || str == "false";
+}
+
 bool isValidIdentifier(const string &str)
 {
     return isalpha(str[0]) && all_of(str.begin(), str.end(), [](char c) { return isalpha(c) || isdigit(c); });
@@ -33,7 +38,15 @@ bool isVariable(const string &str)
 {
     return
         str == "number" ||
-        str == "text";
+        str == "text" ||
+        str == "bool";
+}
+
+bool isCall(const string &str)
+{
+    return
+        str == "write" ||
+        str == "writeLine";
 }
 
 void logWord(string &word)
@@ -59,12 +72,6 @@ vector<token> lexer::tokenize(const string &sourceCode)
         string word = src.front();
         logWord(word);
 
-        if (variables.contains(word))
-        {
-            tokens.push_back(token(word, TokenType::Identifier));
-            src.erase(src.begin());
-            continue;
-        }
 
         if (identifierNext)
         {
@@ -90,6 +97,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Text));
         }
+        else if (isBool(word))
+        {
+            tokens.push_back(token(word, TokenType::Bool));
+        }
         else if (isOperator(word))
         {
             tokens.push_back(token(word, TokenType::Operator));
@@ -111,9 +122,13 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::CloseParen));
         }
-        else if (word == "print")
+        else if (isCall(word))
         {
             tokens.push_back(token(word, TokenType::Call));
+        }
+        else if (variables.contains(word))
+        {
+            tokens.push_back(token(word, TokenType::Identifier));
         }
 
         src.erase(src.begin());

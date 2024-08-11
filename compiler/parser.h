@@ -32,6 +32,18 @@ public:
     string value;
 };
 
+
+class boolNode : public node
+{
+public:
+    boolNode(bool value_) : value(value_) {}
+    string getType() const override
+    {
+        return "bool";
+    }
+    bool value;
+};
+
 class operatorNode : public node
 {
 public:
