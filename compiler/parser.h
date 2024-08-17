@@ -44,16 +44,30 @@ public:
     bool value;
 };
 
-class operatorNode : public node
+class arithmaticOperatorNode : public node
 {
 public:
-    operatorNode(char op_, node* left_, node* right_) : op(op_), left(left_), right(right_) {}
+    arithmaticOperatorNode(char op_, node* left_, node* right_) : op(op_), left(left_), right(right_) {}
     string getType() const override
     {
-        return "operator";
+        return "arithmaticOperator";
     }
 
     char op;
+    node* left;
+    node* right;
+};
+
+class relationalOperatorNode : public node
+{
+public:
+    relationalOperatorNode(string op_, node* left_, node* right_) : op(op_), left(left_), right(right_) {}
+    string getType() const override
+    {
+        return "relationalOperator";
+    }
+
+    string op;
     node* left;
     node* right;
 };

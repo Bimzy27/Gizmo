@@ -27,11 +27,29 @@ bool isValidIdentifier(const string &str)
     return isalpha(str[0]) && all_of(str.begin(), str.end(), [](char c) { return isalpha(c) || isdigit(c); });
 }
 
-bool isOperator(const string &str)
+bool isArithmaticOperator(const string &str)
 {
     return
         str == "+" ||
         str == "-";
+}
+
+bool isRelationalOperator(const string &str)
+{
+    return
+        str == ">" ||
+        str == "<" ||
+        str == ">=" ||
+        str == "<=" ||
+        str == "!=" ||
+        str == "==";
+}
+
+bool isLogicOperator(const string &str)
+{
+    return
+        str == "or" ||
+        str == "and";
 }
 
 bool isVariable(const string &str)
@@ -101,9 +119,17 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Bool));
         }
-        else if (isOperator(word))
+        else if (isArithmaticOperator(word))
         {
-            tokens.push_back(token(word, TokenType::Operator));
+            tokens.push_back(token(word, TokenType::ArithmaticOperator));
+        }
+        else if (isRelationalOperator(word))
+        {
+            tokens.push_back(token(word, TokenType::RelationalOperator));
+        }
+        else if (isLogicOperator(word))
+        {
+            tokens.push_back(token(word, TokenType::LogicOperator));
         }
         else if (isVariable(word))
         {

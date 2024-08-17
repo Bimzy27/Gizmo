@@ -104,7 +104,22 @@ void parser::parseAssignment()
         tokens.erase(tokens.begin());
     }
 
-    if (tokens[1].type == TokenType::Operator)
+    if (tokens[1].type == TokenType::RelationalOperator)
+    {
+        node* leftNode = getNextAssignment(tokens);
+
+        string op = tokens.front().value;
+        tokens.erase(tokens.begin());
+
+        node* rightNode = getNextAssignment(tokens);
+
+        identifierNode* variable = new identifierNode(name);
+        relationalOperatorNode* relation = new relationalOperatorNode(op, leftNode, rightNode);
+        assignmentNode* assign = new assignmentNode(variable, relation);
+
+        program->executions.push_back(assign);
+    }
+    else if (tokens[1].type == TokenType::ArithmaticOperator)
     {
         node* leftNode = getNextAssignment(tokens);
 
@@ -114,7 +129,7 @@ void parser::parseAssignment()
         node* rightNode = getNextAssignment(tokens);
 
         identifierNode* variable = new identifierNode(name);
-        operatorNode* operation = new operatorNode(op, leftNode, rightNode);
+        arithmaticOperatorNode* operation = new arithmaticOperatorNode(op, leftNode, rightNode);
         assignmentNode* assign = new assignmentNode(variable, operation);
 
         program->executions.push_back(assign);

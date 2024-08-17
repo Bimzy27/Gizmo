@@ -20,7 +20,8 @@ private:
     string visitText(textNode &node);
     string visitBool(boolNode &node);
     string visitCall(callNode &node);
-    string visitOperator(operatorNode &node);
+    string visitArithmaticOperator(arithmaticOperatorNode &node);
+    string visitRelationalOperator(relationalOperatorNode &node);
     string visitIdentifier(identifierNode &node);
     string visitVariable(variableNode &node);
 };

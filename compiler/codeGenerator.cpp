@@ -48,9 +48,13 @@ string codeGenerator::visitNode(node* nodeObj)
     {
         return visitCall(dynamic_cast<callNode&>(*nodeObj));
     }
-    if (nodeType == "operator")
+    if (nodeType == "arithmaticOperator")
     {
-        return visitOperator(dynamic_cast<operatorNode&>(*nodeObj));
+        return visitArithmaticOperator(dynamic_cast<arithmaticOperatorNode&>(*nodeObj));
+    }
+    if (nodeType == "relationalOperator")
+    {
+        return visitRelationalOperator(dynamic_cast<relationalOperatorNode&>(*nodeObj));
     }
     if (nodeType == "identifier")
     {
@@ -142,7 +146,16 @@ string codeGenerator::visitCall(callNode &node)
     return code;
 }
 
-string codeGenerator::visitOperator(operatorNode &node)
+string codeGenerator::visitArithmaticOperator(arithmaticOperatorNode &node)
+{
+    string code;
+    code += visitNode(node.left);
+    code += node.op;
+    code += visitNode(node.right);
+    return code;
+}
+
+string codeGenerator::visitRelationalOperator(relationalOperatorNode &node)
 {
     string code;
     code += visitNode(node.left);
