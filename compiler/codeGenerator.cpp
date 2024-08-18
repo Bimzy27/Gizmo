@@ -56,6 +56,10 @@ string codeGenerator::visitNode(node* nodeObj)
     {
         return visitRelationalOperator(dynamic_cast<relationalOperatorNode&>(*nodeObj));
     }
+    if (nodeType == "logicOperator")
+    {
+        return visitLogicOperator(dynamic_cast<logicOperatorNode&>(*nodeObj));
+    }
     if (nodeType == "identifier")
     {
         return visitIdentifier(dynamic_cast<identifierNode&>(*nodeObj));
@@ -99,7 +103,13 @@ string codeGenerator::visitAssignment(assignmentNode &node)
 {
     string code;
     code += varTypes[node.varName->name] + "Vars[\"" + node.varName->name + "\"] = ";
-    code += visitNode(node.node);
+
+    while (!node.assignments.empty())
+    {
+        code += visitNode(node.assignments.front());
+        node.assignments.erase(node.assignments.begin());
+    }
+
     code += ";\n";
     return code;
 }
@@ -161,6 +171,20 @@ string codeGenerator::visitRelationalOperator(relationalOperatorNode &node)
     code += visitNode(node.left);
     code += node.op;
     code += visitNode(node.right);
+    return code;
+}
+
+string codeGenerator::visitLogicOperator(logicOperatorNode &node)
+{
+    string code;
+    if (node.op == "or")
+    {
+        code += "||";
+    }
+    else if (node.op == "and")
+    {
+        code += "&&";
+    }
     return code;
 }
 

@@ -89,6 +89,41 @@ node* getNextAssignment(vector<token> &tokens)
     return n;
 }
 
+node* parser::getAssignValueNode()
+{
+    if (tokens[1].type == TokenType::RelationalOperator)
+    {
+        node* leftNode = getNextAssignment(tokens);
+        string op = tokens.front().value;
+        tokens.erase(tokens.begin());
+        node* rightNode = getNextAssignment(tokens);
+
+        return new relationalOperatorNode(op, leftNode, rightNode);
+    }
+
+    if (tokens[1].type == TokenType::ArithmaticOperator)
+    {
+        node* leftNode = getNextAssignment(tokens);
+        char op = tokens.front().value[0];
+        tokens.erase(tokens.begin());
+        node* rightNode = getNextAssignment(tokens);
+
+        return new arithmaticOperatorNode(op, leftNode, rightNode);
+    }
+
+    return getNextAssignment(tokens);
+}
+
+void parser::parseLogicOperator(assignmentNode* assign)
+{
+    if (tokens.front().type == TokenType::LogicOperator)
+    {
+        assign->assignments.push_back(new logicOperatorNode(tokens.front().value));
+        tokens.erase(tokens.begin());
+        assign->assignments.push_back(getAssignValueNode());
+    }
+}
+
 void parser::parseAssignment()
 {
     string name = tokens.front().value;
@@ -104,42 +139,13 @@ void parser::parseAssignment()
         tokens.erase(tokens.begin());
     }
 
-    if (tokens[1].type == TokenType::RelationalOperator)
+    identifierNode* identifier = new identifierNode(name);
+    assignmentNode* assign = new assignmentNode(identifier, getAssignValueNode());;
+
+    while (tokens.front().type == TokenType::LogicOperator)
     {
-        node* leftNode = getNextAssignment(tokens);
-
-        string op = tokens.front().value;
-        tokens.erase(tokens.begin());
-
-        node* rightNode = getNextAssignment(tokens);
-
-        identifierNode* variable = new identifierNode(name);
-        relationalOperatorNode* relation = new relationalOperatorNode(op, leftNode, rightNode);
-        assignmentNode* assign = new assignmentNode(variable, relation);
-
-        program->executions.push_back(assign);
+        parseLogicOperator(assign);
     }
-    else if (tokens[1].type == TokenType::ArithmaticOperator)
-    {
-        node* leftNode = getNextAssignment(tokens);
 
-        char op = tokens.front().value[0];
-        tokens.erase(tokens.begin());
-
-        node* rightNode = getNextAssignment(tokens);
-
-        identifierNode* variable = new identifierNode(name);
-        arithmaticOperatorNode* operation = new arithmaticOperatorNode(op, leftNode, rightNode);
-        assignmentNode* assign = new assignmentNode(variable, operation);
-
-        program->executions.push_back(assign);
-    }
-    else
-    {
-        node* val = getNextAssignment(tokens);
-        identifierNode* variable = new identifierNode(name);
-        assignmentNode* assign = new assignmentNode(variable, val);
-
-        program->executions.push_back(assign);
-    }
+    program->executions.push_back(assign);
 }

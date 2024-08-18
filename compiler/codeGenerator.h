@@ -22,6 +22,7 @@ private:
     string visitCall(callNode &node);
     string visitArithmaticOperator(arithmaticOperatorNode &node);
     string visitRelationalOperator(relationalOperatorNode &node);
+    string visitLogicOperator(logicOperatorNode &node);
     string visitIdentifier(identifierNode &node);
     string visitVariable(variableNode &node);
 };

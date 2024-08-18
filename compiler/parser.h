@@ -72,6 +72,18 @@ public:
     node* right;
 };
 
+class logicOperatorNode : public node
+{
+public:
+    logicOperatorNode(string op_) : op(op_) {}
+    string getType() const override
+    {
+        return "logicOperator";
+    }
+
+    string op;
+};
+
 class variableNode : public node
 {
 public:
@@ -100,14 +112,15 @@ public:
 class assignmentNode : public node
 {
 public:
-    assignmentNode(identifierNode* varName_, node* node_) : varName(varName_), node(node_) {}
+    assignmentNode(identifierNode* varName_, vector<node*> assignments_) : varName(varName_), assignments(assignments_) {}
+    assignmentNode(identifierNode* varName_, node* assignment_) : varName(varName_), assignments({assignment_}) {}
     string getType() const override
     {
         return "assignment";
     }
 
     identifierNode* varName;
-    node* node;
+    vector<node*> assignments;
 };
 
 class callNode : public node
@@ -159,4 +172,6 @@ private:
     void parseVariable();
     void parseCall();
     void parseAssignment();
+    void parseLogicOperator(assignmentNode* assign);
+    node* getAssignValueNode();
 };

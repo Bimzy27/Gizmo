@@ -73,6 +73,12 @@ build CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj: CXX_COMPILER__comp
   OBJECT_DIR = CMakeFiles\compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
 
+build CMakeFiles/compiler.dir/compiler/utility.cpp.obj: CXX_COMPILER__compiler_unscanned_Release C$:/Programming/Gizmo/compiler/utility.cpp || cmake_object_order_depends_target_compiler
+  DEP_FILE = CMakeFiles\compiler.dir\compiler\utility.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\compiler.dir
+  OBJECT_FILE_DIR = CMakeFiles\compiler.dir\compiler
+
 
 # =============================================================================
 # Link build statements for STATIC_LIBRARY target compiler
@@ -81,7 +87,7 @@ build CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj: CXX_COMPILER__comp
 #############################################
 # Link the static library libcompiler.a
 
-build libcompiler.a: CXX_STATIC_LIBRARY_LINKER__compiler_Release CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj CMakeFiles/compiler.dir/compiler/lexer.cpp.obj CMakeFiles/compiler.dir/compiler/parser.cpp.obj CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj
+build libcompiler.a: CXX_STATIC_LIBRARY_LINKER__compiler_Release CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj CMakeFiles/compiler.dir/compiler/lexer.cpp.obj CMakeFiles/compiler.dir/compiler/parser.cpp.obj CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj CMakeFiles/compiler.dir/compiler/utility.cpp.obj
   LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = CMakeFiles\compiler.dir
   POST_BUILD = cd .
