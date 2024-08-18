@@ -55,3 +55,12 @@
 4	619	7456899850526562	CMakeFiles/compiler.dir/compiler/parser.cpp.obj	7c8826540a703025
 619	1898	7456899856672253	libcompiler.a	bac26f4f23eb96a5
 1898	3257	7456899869456342	Gizmo.exe	7d83aa5f91179f01
+14	703	7456907454114089	CMakeFiles/compiler.dir/compiler/codeGenerator.cpp.obj	326e750d37716750
+11	704	7456907454084102	CMakeFiles/compiler.dir/compiler/parser.cpp.obj	7c8826540a703025
+8	779	7456907454054094	CMakeFiles/compiler.dir/compiler/lexer.cpp.obj	4be2d285ab4b2d45
+4	2300	7456907454014096	CMakeFiles/compiler.dir/compiler/gizCompiler.cpp.obj	26e7abe340f76982
+2300	3549	7456907476974098	libcompiler.a	bac26f4f23eb96a5
+3549	4897	7456907489464108	Gizmo.exe	7d83aa5f91179f01
+4	655	7456910408023981	CMakeFiles/compiler.dir/compiler/lexer.cpp.obj	4be2d285ab4b2d45
+655	1906	7456910414533939	libcompiler.a	bac26f4f23eb96a5
+1906	3249	7456910427043947	Gizmo.exe	7d83aa5f91179f01

@@ -67,6 +67,14 @@ bool isCall(const string &str)
         str == "writeLine";
 }
 
+bool isConditionalStatement(const string &str)
+{
+    return
+        str == "if" ||
+        str == "else if" ||
+        str == "else";
+}
+
 void logWord(string &word)
 {
     if (word == "\n")
@@ -89,7 +97,6 @@ vector<token> lexer::tokenize(const string &sourceCode)
     {
         string word = src.front();
         logWord(word);
-
 
         if (identifierNext)
         {
@@ -140,6 +147,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Equals));
         }
+        else if (word == ":")
+        {
+            tokens.push_back(token(word, TokenType::Colon));
+        }
         else if (word == "(")
         {
             tokens.push_back(token(word, TokenType::OpenParen));
@@ -151,6 +162,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
         else if (isCall(word))
         {
             tokens.push_back(token(word, TokenType::Call));
+        }
+        else if (isConditionalStatement(word))
+        {
+            tokens.push_back(token(word, TokenType::ConditionalStatement));
         }
         else if (variables.contains(word))
         {
@@ -192,7 +207,19 @@ vector<string> lexer::splitString(const string &sourceCode)
             continue;
         }
 
-        if ((ch == ' ' || ch == '\n' || ch == '(' || ch == ')') && !accumulatingText)
+        if (word == "else" && ch == ' ')
+        {
+            word += ch;
+            continue;
+        }
+
+        if (ch == '\t')
+        {
+            cout << "TAB FOUND!" << endl;
+            //TODO implement indents into lexer to support conditional statements
+        }
+
+        if ((ch == ' ' || ch == '\n' || ch == ':' || ch == '(' || ch == ')') && !accumulatingText)
         {
             if (!word.empty())
             {
@@ -207,6 +234,10 @@ vector<string> lexer::splitString(const string &sourceCode)
             else if (ch == '(')
             {
                 words.push_back("(");
+            }
+            else if (ch == ':')
+            {
+                words.push_back(":");
             }
             else if (ch == ')')
             {

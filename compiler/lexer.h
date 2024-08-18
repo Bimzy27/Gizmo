@@ -22,6 +22,8 @@ enum TokenType
     OpenParen,
     CloseParen,
     Indent,
+    ConditionalStatement,
+    Colon,
 };
 
 inline const char* TokenTypeStr[] = {
@@ -39,6 +41,8 @@ inline const char* TokenTypeStr[] = {
     "OpenParen",
     "CloseParen",
     "Indent",
+    "ConditionalStatement",
+    "Colon",
 };
 
 struct token
