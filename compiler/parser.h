@@ -123,6 +123,20 @@ public:
     vector<node*> assignments;
 };
 
+class conditionalStatementNode : public node
+{
+public:
+    conditionalStatementNode(string type_, int depth_, vector<node*> nested_) : type(type_), depth(depth_), nested(nested_) {}
+    string getType() const override
+    {
+        return "conditionalStatement";
+    }
+
+    string type;
+    int depth;
+    vector<node*> nested;
+};
+
 class callNode : public node
 {
 public:
@@ -171,6 +185,7 @@ private:
 
     void parseVariable();
     void parseCall();
+    void parseConditionalStatement();
     void parseAssignment();
     void parseLogicOperator(assignmentNode* assign);
     node* getAssignValueNode();
