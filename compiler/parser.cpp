@@ -22,6 +22,12 @@ programNode* parser::parse(vector<token> tokens_)
             continue;
         }
 
+        if (tokens.front().type == TokenType::ConditionalStatement)
+        {
+            parseConditionalStatement();
+            continue;
+        }
+
         if (tokens.front().type == TokenType::Call)
         {
             parseCall();
@@ -60,6 +66,22 @@ void parser::parseCall()
     callNode* call = new callNode(name, varName);
 
     program->executions.push_back(call);
+}
+
+void parser::parseConditionalStatement()
+{
+    string type = tokens.front().value;
+    tokens.erase(tokens.begin());
+    tokens.erase(tokens.begin()); //erase :
+    int depth = 0;
+    while (tokens.front().type == TokenType::Indent)
+    {
+        depth++;
+        tokens.erase(tokens.begin());
+    }
+    vector<node*> nested;
+    while (tokens.front())
+    conditionalStatementNode* condition = new conditionalStatementNode(type, depth, nested);
 }
 
 node* getNextAssignment(vector<token> &tokens)

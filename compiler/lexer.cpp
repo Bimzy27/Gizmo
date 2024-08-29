@@ -147,6 +147,10 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Equals));
         }
+        else if (word == "-")
+        {
+            tokens.push_back(token(word, TokenType::Indent));
+        }
         else if (word == ":")
         {
             tokens.push_back(token(word, TokenType::Colon));
@@ -219,7 +223,12 @@ vector<string> lexer::splitString(const string &sourceCode)
             //TODO implement indents into lexer to support conditional statements
         }
 
-        if ((ch == ' ' || ch == '\n' || ch == ':' || ch == '(' || ch == ')') && !accumulatingText)
+        if ((ch == ' ' ||
+            ch == '\n' ||
+            ch == '-' ||
+            ch == ':' ||
+            ch == '(' ||
+            ch == ')') && !accumulatingText)
         {
             if (!word.empty())
             {
@@ -231,13 +240,17 @@ vector<string> lexer::splitString(const string &sourceCode)
             {
                 words.push_back("\n");
             }
-            else if (ch == '(')
+            else if (ch == '-')
             {
-                words.push_back("(");
+                words.push_back("-");
             }
             else if (ch == ':')
             {
                 words.push_back(":");
+            }
+            else if (ch == '(')
+            {
+                words.push_back("(");
             }
             else if (ch == ')')
             {
