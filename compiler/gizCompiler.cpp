@@ -129,8 +129,50 @@ void logTokens(vector<token> &tokens)
     }
 }
 
+string readFile(const string& filePath)
+{
+    ifstream file(filePath);
+    if (!file.is_open()) {
+        cerr << "Error opening file: " << filePath << endl;
+        return ""; // Or handle the error differently
+    }
+
+    // Get the file size
+    file.seekg(0, ios::end);
+    size_t fileSize = file.tellg();
+    file.seekg(0, ios::beg);
+
+    // Allocate memory for the file content
+    string fileContent(fileSize, '\0');
+
+    // Read the file content into the string
+    file.read(&fileContent[0], fileSize);
+
+    return fileContent;
+}
+
 void gizCompiler::compile(string projectFile)
 {
+    ofstream myfile;
+
+    // Open the file for writing
+    myfile.open("C:\\Programming\\GizmoLauncher\\GizmoLauncher\\bin\\Debug\\net8.0\\example.txt");
+
+    // Check if the file was opened successfully
+    if (myfile.is_open()) {
+        // Write data to the file
+        myfile << projectFile;
+
+        // Close the file
+        myfile.close();
+        cout << "File created and written successfully.\n";
+    } else {
+        cout << "Unable to open file.\n";
+    }
+
+
+    /*string fileContents = readFile(projectFile);
+
     // Get Giz files
     string path = extractProjectFileAttribute(getLine(projectFile, 2));
     path = replaceBackslashWithSlash(path);
@@ -162,5 +204,14 @@ void gizCompiler::compile(string projectFile)
     writeCppToFile(cppCode, path + "/build/main.cpp");
     createCMakeLists(path + "/build/CMakeLists.txt");
 
-    cout << "Compile Success!" << endl;
+    cout << "Compile Success!" << endl;*/
+}
+
+#define EXPORTED_COMPILE_METHOD extern "C" __declspec(dllexport)
+
+EXPORTED_COMPILE_METHOD
+void Compile(string gizmoProjectPath)
+{
+    gizCompiler comp;
+    comp.compile(gizmoProjectPath);
 }

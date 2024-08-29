@@ -4,7 +4,9 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(Gizmo)
 
-add_library(compiler STATIC
+add_compile_definitions(DLL_EXPORTS)
+
+add_library(compiler SHARED
         compiler/gizCompiler.cpp
         compiler/gizCompiler.h
         compiler/lexer.cpp
@@ -14,7 +16,3 @@ add_library(compiler STATIC
         compiler/codeGenerator.cpp
         compiler/codeGenerator.h
 )
-
-add_executable(Gizmo main.cpp)
-
-target_link_libraries(Gizmo compiler)
