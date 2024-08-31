@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Gizmo": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
