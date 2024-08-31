@@ -117,24 +117,27 @@ node* getNextAssignment(vector<token> &tokens)
 
 node* parser::getAssignValueNode()
 {
-    if (tokens[1].type == TokenType::RelationalOperator)
+    if (tokens.size() > 1)
     {
-        node* leftNode = getNextAssignment(tokens);
-        string op = tokens.front().value;
-        tokens.erase(tokens.begin());
-        node* rightNode = getNextAssignment(tokens);
+        if (tokens[1].type == TokenType::RelationalOperator)
+        {
+            node* leftNode = getNextAssignment(tokens);
+            string op = tokens.front().value;
+            tokens.erase(tokens.begin());
+            node* rightNode = getNextAssignment(tokens);
 
-        return new relationalOperatorNode(op, leftNode, rightNode);
-    }
+            return new relationalOperatorNode(op, leftNode, rightNode);
+        }
 
-    if (tokens[1].type == TokenType::ArithmaticOperator)
-    {
-        node* leftNode = getNextAssignment(tokens);
-        char op = tokens.front().value[0];
-        tokens.erase(tokens.begin());
-        node* rightNode = getNextAssignment(tokens);
+        if (tokens[1].type == TokenType::ArithmaticOperator)
+        {
+            node* leftNode = getNextAssignment(tokens);
+            char op = tokens.front().value[0];
+            tokens.erase(tokens.begin());
+            node* rightNode = getNextAssignment(tokens);
 
-        return new arithmaticOperatorNode(op, leftNode, rightNode);
+            return new arithmaticOperatorNode(op, leftNode, rightNode);
+        }
     }
 
     return getNextAssignment(tokens);
@@ -168,7 +171,7 @@ void parser::parseAssignment()
     identifierNode* identifier = new identifierNode(name);
     assignmentNode* assign = new assignmentNode(identifier, getAssignValueNode());;
 
-    while (tokens.front().type == TokenType::LogicOperator)
+    while (tokens.size() > 0 && tokens.front().type == TokenType::LogicOperator)
     {
         parseLogicOperator(assign);
     }
