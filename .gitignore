@@ -31,7 +31,6 @@
 # Visual Studio
 *.vcxproj
 *.vcxproj.filters
-*.sln
 
 # Other
 bin/
