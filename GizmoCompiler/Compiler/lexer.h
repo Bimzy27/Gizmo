@@ -49,6 +49,7 @@ struct token
 {
     string value;
     TokenType type;
+    int depth;
 };
 
 class lexer
