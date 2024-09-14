@@ -6,5 +6,8 @@ Language Features:
 Language Syntax:
   Types:
     - number
+    
     - text
+    
     - bool
+    
