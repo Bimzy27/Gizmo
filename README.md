@@ -4,11 +4,9 @@ Language Features:
   - Transpiled into C++
 
 Language Syntax:
-  Types:
-  
+
+  Types:  
     - number
-    
     - text
-    
     - bool
     
