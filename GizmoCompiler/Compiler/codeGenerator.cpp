@@ -86,7 +86,9 @@ string codeGenerator::visitProgram(programNode &node)
         code += visitNode(node.executions.front());
         node.executions.erase(node.executions.begin());
     }
-
+    
+    code += "string input;\n";
+    code += "cin >> input;\n";
     code += "return 0;\n";
     code += "}\n";
     return code;

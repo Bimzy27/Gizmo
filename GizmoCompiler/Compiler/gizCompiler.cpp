@@ -48,23 +48,6 @@ void writeCppToFile(const string& content, const string& filename) {
     }
 }
 
-void createCMakeLists(const string& filename)
-{
-    ofstream cmakeFile(filename);
-    if (cmakeFile.is_open())
-    {
-        cmakeFile << "cmake_minimum_required(VERSION 3.28)\n";
-        cmakeFile << "project(GizmoTest)\n";
-        cmakeFile << "set(CMAKE_CXX_STANDARD 20)\n";
-        cmakeFile << "add_executable(GizmoTest main.cpp)\n";
-        cmakeFile.close();
-    }
-    else
-    {
-        cerr << "Error creating CMakeLists.txt" << endl;
-    }
-}
-
 string getLine(const string& text, int lines)
 {
     if (lines <= 0)
@@ -157,6 +140,8 @@ void gizCompiler::compile(string projectFile)
     cout << "FileContents: " << fileContents << endl;
 
     // Get Giz files
+    string projectName = extractProjectFileAttribute(getLine(fileContents, 1));
+    cout << "ProjectName: " << projectName << endl;
     string path = extractProjectFileAttribute(getLine(fileContents, 2));
     path = replaceBackslashWithSlash(path);
     cout << "Path: " << path << endl;
@@ -184,8 +169,8 @@ void gizCompiler::compile(string projectFile)
     // CodeGen
     codeGenerator codeGen;
     string cppCode = codeGen.generate(root);
-    writeCppToFile(cppCode, path + "/build/main.cpp");
-    createCMakeLists(path + "/build/CMakeLists.txt");
-
+    string cppProjectPath = path + "/cppProject/";
+    writeCppToFile(cppCode, cppProjectPath + "main.cpp");
+    
     cout << "Compile Success!" << endl;
 }

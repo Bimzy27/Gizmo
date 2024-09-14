@@ -7,6 +7,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>bin\gizmoCompilerDebug\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>bin\gizmoCompiler\</OutputPath>
+    </PropertyGroup>
+
     <ItemGroup>
       <Compile Remove="GizmoCompiler\**" />
     </ItemGroup>
@@ -17,6 +25,11 @@
 
     <ItemGroup>
       <None Remove="GizmoCompiler\**" />
+      <None Remove="main.cpp" />
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="xcopy &quot;C:\Programming\Gizmo\bin\gizmoCompilerDebug&quot; &quot;C:\Programming\GizmoExtension\Gizmo\gizmoCompilerDebug&quot; /E /I" />
+    </Target>
 
 </Project>

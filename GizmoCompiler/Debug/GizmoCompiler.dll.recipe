@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Programming\Gizmo\bin\Debug\GizmoCompiler.dll</FullPath>
+      <FullPath>C:\Programming\Gizmo\bin\gizmoCompilerDebug\GizmoCompiler.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

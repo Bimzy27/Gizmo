@@ -9,7 +9,7 @@ set projectPath=%cd%
 
 type nul > project.gizmo
 type nul > main.giz
-md build
+md cppProject
 
 echo number var = 1 > main.giz
 echo writeLine(var) >> main.giz
@@ -18,8 +18,5 @@ echo projectName=%projectName% > project.gizmo
 echo path=%projectPath% >> project.gizmo
 echo main=main.giz >> project.gizmo
 
-cd ..
-
-
-
-
+cd cppProject
+md build
