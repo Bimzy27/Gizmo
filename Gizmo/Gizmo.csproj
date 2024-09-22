@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="xcopy &quot;C:\Programming\Gizmo\bin\gizmoCompilerDebug&quot; &quot;C:\Programming\GizmoExtension\Gizmo\gizmoCompilerDebug&quot; /E /I /Y /R" />
+      <Exec Command="xcopy &quot;C:\Programming\Gizmo\Gizmo\bin\gizmoCompilerDebug&quot; &quot;C:\Programming\GizmoExtension\Gizmo\gizmoCompilerDebug&quot; /E /I /Y /R" />
     </Target>
 
 </Project>
