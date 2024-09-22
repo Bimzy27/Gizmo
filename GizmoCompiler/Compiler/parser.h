@@ -1,5 +1,6 @@
 #pragma once
 #include "lexer.h"
+#include "tokenCollection.h"
 
 using namespace std;
 
@@ -126,14 +127,13 @@ public:
 class conditionalStatementNode : public node
 {
 public:
-    conditionalStatementNode(string type_, int depth_, vector<node*> nested_) : type(type_), depth(depth_), nested(nested_) {}
+    conditionalStatementNode(string conditionType_, vector<node*> nested_) : conditionType(conditionType_), nested(nested_) {}
     string getType() const override
     {
         return "conditionalStatement";
     }
 
-    string type;
-    int depth;
+    string conditionType;
     vector<node*> nested;
 };
 
@@ -177,16 +177,19 @@ public:
 class parser
 {
 public:
-    programNode* parse(vector<token> tokens_);
+    parser(vector<token> tokens_);
+    programNode* parse();
 private:
-
-    vector<token> tokens;
+    tokenCollection tokens;
     programNode* program;
+    vector<node*> parseNodes;
 
-    void parseVariable();
-    void parseCall();
-    void parseConditionalStatement();
-    void parseAssignment();
-    void parseLogicOperator(assignmentNode* assign);
-    node* getAssignValueNode();
+    void parseLine(tokenLine* line);
+    void parseVariable(tokenLine* line);
+    void parseCall(tokenLine* line);
+    void parseConditionalStatement(tokenLine* line);
+    void parseAssignment(tokenLine* line);
+    void parseLogicOperator(assignmentNode* assign, tokenLine* line);
+    node* getNextAssignment(tokenLine* line);
+    node* getAssignValueNode(tokenLine* line);
 };

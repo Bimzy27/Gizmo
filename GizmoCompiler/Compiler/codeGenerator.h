@@ -25,4 +25,5 @@ private:
     string visitLogicOperator(logicOperatorNode &node);
     string visitIdentifier(identifierNode &node);
     string visitVariable(variableNode &node);
+    string visitConditionalStatement(conditionalStatementNode &node);
 };

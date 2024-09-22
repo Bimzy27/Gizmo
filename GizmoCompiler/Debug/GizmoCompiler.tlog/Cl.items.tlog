@@ -2,4 +2,6 @@ C:\Programming\Gizmo\GizmoCompiler\compiler\codeGenerator.cpp;C:\Programming\Giz
 C:\Programming\Gizmo\GizmoCompiler\compiler\gizCompiler.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\gizCompiler.obj
 C:\Programming\Gizmo\GizmoCompiler\compiler\lexer.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\lexer.obj
 C:\Programming\Gizmo\GizmoCompiler\compiler\parser.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\parser.obj
+C:\Programming\Gizmo\GizmoCompiler\compiler\tokenCollection.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\tokenCollection.obj
+C:\Programming\Gizmo\GizmoCompiler\compiler\tokenLine.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\tokenLine.obj
 C:\Programming\Gizmo\GizmoCompiler\dllmain.cpp;C:\Programming\Gizmo\GizmoCompiler\Debug\dllmain.obj

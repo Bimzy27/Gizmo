@@ -1,180 +1,190 @@
 #include "parser.h"
 
+#include <cassert>
 #include <iostream>
 
 using namespace std;
 
-programNode* parser::parse(vector<token> tokens_)
+parser::parser(vector<token> tokens_): tokens(tokenCollection(&tokens_)) {}
+
+programNode* parser::parse()
 {
     program = new programNode();
-    tokens = tokens_;
-    while (!tokens.empty())
+    
+    while (tokens.hasNextLine())
     {
-        if (tokens.front().type == TokenType::Variable)
-        {
-            parseVariable();
-            continue;
-        }
+        assert(tokens.hasNextLine());
+        tokenLine* line = tokens.nextLine();
+        parseLine(line);
 
-        if (tokens.front().type == TokenType::Identifier)
+        while(!parseNodes.empty())
         {
-            parseAssignment();
-            continue;
+            program->executions.push_back(parseNodes[0]);
+            parseNodes.erase(parseNodes.begin());
         }
-
-        if (tokens.front().type == TokenType::ConditionalStatement)
-        {
-            parseConditionalStatement();
-            continue;
-        }
-
-        if (tokens.front().type == TokenType::Call)
-        {
-            parseCall();
-            continue;
-        }
-
-        if (tokens.front().type == TokenType::NewLine)
-        {
-            tokens.erase(tokens.begin());
-            continue;
-        }
-
-        cout << "Unhandled Token <-> " << TokenTypeStr[tokens.front().type] << " <-> " << tokens.front().value << "\n";
-        tokens.erase(tokens.begin());
     }
     return program;
 }
 
-void parser::parseVariable()
+void parser::parseLine(tokenLine* line)
 {
-    string type = tokens.front().value;
-    tokens.erase(tokens.begin());
-    string name = tokens.front().value;
-    variableNode* variable = new variableNode(type, name);
-    program->executions.push_back(variable);
+    while (line->hasNextToken())
+    {
+        if (line->nextToken()->type == TokenType::Variable)
+        {
+            cout << "Parse Variable" << endl;
+            parseVariable(line);
+            continue;
+        }
+
+        if (line->nextToken()->type == TokenType::Identifier)
+        {
+            cout << "Parse Assignment" << endl;
+            parseAssignment(line);
+            continue;
+        }
+
+        if (line->nextToken()->type == TokenType::ConditionalStatement)
+        {
+            cout << "Parse Condition" << endl;
+            parseConditionalStatement(line);
+            continue;
+        }
+
+        if (line->nextToken()->type == TokenType::Call)
+        {
+            cout << "Parse Call" << endl;
+            parseCall(line);
+            continue;
+        }
+        
+        cout << "Unhandled Token <-> " << TokenTypeStr[line->nextToken()->type] << " <-> " << line->nextToken()->value << endl;
+        line->eraseNextToken();
+    }
+
+    assert(line->hasNextToken() == false);
+    tokens.eraseNextLine();
 }
 
-void parser::parseCall()
+void parser::parseVariable(tokenLine* line)
 {
-    string name = tokens.front().value;
-    tokens.erase(tokens.begin());
-    tokens.erase(tokens.begin()); // consume (
-    string varName = tokens.front().value;
-    tokens.erase(tokens.begin());
-    tokens.erase(tokens.begin()); // consume )
+    string type = line->nextToken()->value;
+    line->eraseNextToken();
+    string name = line->nextToken()->value;
+    variableNode* variable = new variableNode(type, name);
+    parseNodes.push_back(variable);
+}
+
+void parser::parseCall(tokenLine* line)
+{
+    string name = line->nextToken()->value;
+    line->eraseNextToken();
+    line->eraseNextToken(); // consume (
+    string varName = line->nextToken()->value;
+    line->eraseNextToken();
+    line->eraseNextToken(); // consume )
     callNode* call = new callNode(name, varName);
 
-    program->executions.push_back(call);
+    parseNodes.push_back(call);
 }
 
-void parser::parseConditionalStatement()
+void parser::parseConditionalStatement(tokenLine* line)
 {
-    string type = tokens.front().value;
-    tokens.erase(tokens.begin());
-    tokens.erase(tokens.begin()); //erase :
-    int depth = 0;
-    while (tokens.front().type == TokenType::Indent)
+    token conditionToken = *line->nextToken();
+    
+    //TODO implement conditional logic
+    
+    while (tokens.getLineCount() > 1 && tokens.getTokenLine(1)->getDepth() == conditionToken.depth + 1)
     {
-        depth++;
-        tokens.erase(tokens.begin());
+        parseLine(tokens.getTokenLine(1));
     }
-    vector<node*> nested;
-    //TODO implement this
-    /*while (tokens.front())
-    {
-        
-    }*/
-    /*conditionalStatementNode* condition = new conditionalStatementNode(type, depth, nested);*/
+    conditionalStatementNode* condition = new conditionalStatementNode(conditionToken.value, parseNodes);
+    parseNodes.clear();
+    parseNodes.push_back(condition);
 }
 
-node* getNextAssignment(vector<token> &tokens)
+node* parser::getNextAssignment(tokenLine* line)
 {
     node* n = nullptr;
-    if (tokens.front().type == TokenType::Number)
+    if (line->nextToken()->type == TokenType::Number)
     {
-        int num = stoi(tokens.front().value);
+        int num = stoi(line->nextToken()->value);
         n = new numberNode(num);
     }
-    else if (tokens.front().type == TokenType::Text)
+    else if (line->nextToken()->type == TokenType::Text)
     {
-        string str = tokens.front().value;
+        string str = line->nextToken()->value;
         n = new textNode(str);
     }
-    else if (tokens.front().type == TokenType::Bool)
+    else if (line->nextToken()->type == TokenType::Bool)
     {
-        string str = tokens.front().value;
+        string str = line->nextToken()->value;
         n = new boolNode(str == "true");
     }
-    else if (tokens.front().type == TokenType::Identifier)
+    else if (line->nextToken()->type == TokenType::Identifier)
     {
-        string str = tokens.front().value;
+        string str = line->nextToken()->value;
         n = new identifierNode(str);
     }
-    tokens.erase(tokens.begin());
+    line->eraseNextToken();
     return n;
 }
 
-node* parser::getAssignValueNode()
+node* parser::getAssignValueNode(tokenLine* line)
 {
-    if (tokens.size() > 1)
+    if (line->getTokenCount() > 1)
     {
-        if (tokens[1].type == TokenType::RelationalOperator)
+        if (line->getToken(1)->type == TokenType::RelationalOperator)
         {
-            node* leftNode = getNextAssignment(tokens);
-            string op = tokens.front().value;
-            tokens.erase(tokens.begin());
-            node* rightNode = getNextAssignment(tokens);
+            node* leftNode = getNextAssignment(line);
+            string op = line->nextToken()->value;
+            line->eraseNextToken();
+            node* rightNode = getNextAssignment(line);
 
             return new relationalOperatorNode(op, leftNode, rightNode);
         }
 
-        if (tokens[1].type == TokenType::ArithmaticOperator)
+        if (line->getToken(1)->type == TokenType::ArithmaticOperator)
         {
-            node* leftNode = getNextAssignment(tokens);
-            char op = tokens.front().value[0];
-            tokens.erase(tokens.begin());
-            node* rightNode = getNextAssignment(tokens);
+            node* leftNode = getNextAssignment(line);
+            char op = line->nextToken()->value[0];
+            line->eraseNextToken();
+            node* rightNode = getNextAssignment(line);
 
             return new arithmaticOperatorNode(op, leftNode, rightNode);
         }
     }
 
-    return getNextAssignment(tokens);
+    return getNextAssignment(line);
 }
 
-void parser::parseLogicOperator(assignmentNode* assign)
+void parser::parseLogicOperator(assignmentNode* assign, tokenLine* line)
 {
-    if (tokens.front().type == TokenType::LogicOperator)
+    if (line->nextToken()->type == TokenType::LogicOperator)
     {
-        assign->assignments.push_back(new logicOperatorNode(tokens.front().value));
-        tokens.erase(tokens.begin());
-        assign->assignments.push_back(getAssignValueNode());
+        assign->assignments.push_back(new logicOperatorNode(line->nextToken()->value));
+        line->eraseNextToken();
+        assign->assignments.push_back(getAssignValueNode(line));
     }
 }
 
-void parser::parseAssignment()
+void parser::parseAssignment(tokenLine* line)
 {
-    string name = tokens.front().value;
-    tokens.erase(tokens.begin());
+    string name = line->nextToken()->value;
+    line->eraseNextToken();
 
-    if (tokens.front().type == TokenType::NewLine)
+    if (line->nextToken()->type == TokenType::Equals)
     {
-        return;
-    }
-
-    if (tokens.front().type == TokenType::Equals)
-    {
-        tokens.erase(tokens.begin());
+        line->eraseNextToken();
     }
 
     identifierNode* identifier = new identifierNode(name);
-    assignmentNode* assign = new assignmentNode(identifier, getAssignValueNode());;
+    assignmentNode* assign = new assignmentNode(identifier, getAssignValueNode(line));
 
-    while (tokens.size() > 0 && tokens.front().type == TokenType::LogicOperator)
+    while (line->hasNextToken() && line->nextToken()->type == TokenType::LogicOperator)
     {
-        parseLogicOperator(assign);
+        parseLogicOperator(assign, line);
     }
 
-    program->executions.push_back(assign);
+    parseNodes.push_back(assign);
 }

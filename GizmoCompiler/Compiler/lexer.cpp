@@ -147,7 +147,7 @@ vector<token> lexer::tokenize(const string &sourceCode)
         {
             tokens.push_back(token(word, TokenType::Equals));
         }
-        else if (word == "-")
+        else if (word == "~")
         {
             tokens.push_back(token(word, TokenType::Indent));
         }
@@ -189,6 +189,13 @@ vector<string> lexer::splitString(const string &sourceCode)
 
     for (char ch : sourceCode)
     {
+        if (ch == '~')
+        {
+            words.push_back("~");
+            word.clear();
+            continue;
+        }
+        
         if (ch == '"')
         {
             if (accumulatingText)
@@ -215,12 +222,6 @@ vector<string> lexer::splitString(const string &sourceCode)
         {
             word += ch;
             continue;
-        }
-
-        if (ch == '\t')
-        {
-            cout << "TAB FOUND!" << endl;
-            //TODO implement indents into lexer to support conditional statements
         }
 
         if ((ch == ' ' ||

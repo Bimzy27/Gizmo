@@ -64,6 +64,10 @@ string codeGenerator::visitNode(node* nodeObj)
     {
         return visitIdentifier(dynamic_cast<identifierNode&>(*nodeObj));
     }
+    if (nodeType == "conditionalStatement")
+    {
+        return visitConditionalStatement(dynamic_cast<conditionalStatementNode&>(*nodeObj));
+    }
     cout << "Unhandled node visisted of type: " << nodeObj->getType() << endl;
     return "";
 }
@@ -206,4 +210,28 @@ string codeGenerator::visitVariable(variableNode &node)
     code += "{ " + node.type + "Vars[\"" + node.name + "\"] = " + varTypesDefaults[node.type] + "; }\n";
     return code;
 
+}
+
+string codeGenerator::visitConditionalStatement(conditionalStatementNode& node)
+{
+    string code;
+    if (node.conditionType == "if")
+    {
+        code += "if(true) {\n";
+    }
+    else if (node.conditionType == "else if")
+    {
+        code += "else if(true) {\n";
+    }
+    else if (node.conditionType == "else")
+    {
+        code += "else {\n";
+    }
+    while (!node.nested.empty())
+    {
+        code += visitNode(node.nested.front());
+        node.nested.erase(node.nested.begin());
+    }
+    code += "}\n";
+    return code;
 }

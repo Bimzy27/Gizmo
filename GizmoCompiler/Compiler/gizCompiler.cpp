@@ -157,8 +157,8 @@ void gizCompiler::compile(string projectFile)
     logTokens(tokens);
 
     // Parse tokens
-    parser par;
-    programNode* root = par.parse(tokens);
+    parser par = parser(tokens);
+    programNode* root = par.parse();
 
     // Semantic analysis
     //TODO implement
