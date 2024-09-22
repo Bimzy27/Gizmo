@@ -9,8 +9,8 @@ class Program
     
     static void Main(string[] args)
     {
-        string altText = "C:/Programming/GizmoTestProject/project.gizmo";
-        Compile(args.Length > 0 ? args[0] : altText);
-        Console.WriteLine("Input: " + (args.Length > 0 ? args[0] : "No args"));
+        string altText = "C:/Programming/Gizmo/GizmoTestProject/project.gizmo";
+        string input = args.Length > 0 ? args[0] : altText; 
+        Compile(input);
     }
 }

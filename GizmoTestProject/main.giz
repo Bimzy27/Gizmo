@@ -1,0 +1,5 @@
+number num1 = 420
+writeLine(num1)
+number num2 = 69
+if:
+~writeLine(num2)
